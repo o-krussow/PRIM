@@ -10,15 +10,15 @@ from keras.models import Sequential
 from keras.layers import Dense
 from keras.layers import LSTM
 from keras.layers import Dropout
-from keras.callbacks import EarlyStopping, History
-
-#AI optimizing Libraries
-#from hyperopt import Trials, STATUS_OK, tpe
-#from hyperas import optim
-#from hyperas.distributions import choice, uniform
+from keras.callbacks import EarlyStopping, History, ModelCheckpoint
+from keras.backend import get_session
 
 #File IO
 from file_handler import File
+import os
+
+import time
+
 
 class Model:
     def __init__(self, data_file_name, time_span = 60):
@@ -34,9 +34,6 @@ class Model:
         self._scaler = MinMaxScaler(feature_range = (0, 1))
         self._df_train = self._scaler.fit_transform(self._df_train)
         self._create_model()
-
-    def _get_data(self):
-        return self._df_train
 
     def _create_model(self):
         self._features_set = []
@@ -71,18 +68,53 @@ class Model:
      
         #now compile the model
         self._model.compile(optimizer = 'adam', loss = 'mean_squared_error')
+        
+        #save initial blank weights
+        self._model.save_weights('model.h5')
     
     def train(self, epochs = 100, batch_size = 32):
         self._batch_size = batch_size
+        checkpoint_path = "training_1/cp.ckpt"
+        checkpoint_dir = os.path.dirname(checkpoint_path)
+        
+        model_checkpoint_callback = ModelCheckpoint(filepath = checkpoint_path,
+                                                    save_weights_only = True,
+                                                    monitor = 'val_loss',
+                                                    mode = 'min',
+                                                    save_best_only = True)
+
         #now train the model using our features and label
-        es = EarlyStopping(monitor='val_loss', mode='min', patience=20,
-                           min_delta=0.001)
+        es = EarlyStopping(monitor = 'val_loss', 
+                           patience = 20,
+                           min_delta = .0005,
+                           start_from_epoch = 10,
+                           verbose = 1)
         history = History()
-        self._model.fit(self._features_set, self._labels, 
+        result = self._model.fit(self._features_set, self._labels, 
                         epochs = epochs, batch_size = self._batch_size,
-                        verbose = 1,
+                        verbose = 1, 
                         validation_split = 0.2, 
-                        callbacks=[es, history])
+                        callbacks=[model_checkpoint_callback, history, es])
+        validation_loss = np.amin(result.history['val_loss'])
+        self._model.load_weights(checkpoint_path)
+        return validation_loss
+        
+    def hyperfit(self, epochs = [50, 100], batch_sizes = [7, 14, 32]):
+        #lower fitness value is better
+        #(best fitting model, fitness value of best model)
+        best_model = (None,  0)
+        for epoch in epochs:
+            for batch_size in batch_sizes:
+                fitness = self.train(epoch, batch_size)
+                if fitness < best_model[1] or best_model[0] == None:
+                    best_model = (self._model, fitness)
+                self._reset_weights()
+
+        self._model = best_model[0]
+        print(best_model[1])
+
+    def _reset_weights(self):
+        self._model.load_weights('model.h5')
 
     def predict(self, futurecast):
         predictions = []
@@ -109,17 +141,6 @@ class Model:
         self._df_train_unscaled = np.append(self._df_train_unscaled, prediction)
         
         return prediction[0][0]
-
-    """
-    def hyperfit(self):
-        best_run = optim.minimize(model = self._create_model,
-                                  data = self._get_data,
-                                  algo = tpe.suggest,
-                                  max_evals = 5,
-                                  trials = Trials())
-        self._df_train = self._get_data()
-        print('hi')
-    """
 
 def main():
     """
@@ -201,9 +222,13 @@ def main():
     plt.show()
     """
     
+    start_time = time.time()
+
     model = Model("BASMX-10y-1d.csv")
-    model.train(1, 30)
+    model.hyperfit()
     predictions = model.predict(20)
+
+    print(f"Time in seconds: {time.time() - start_time}")
 
     plt.figure(figsize=(10,6))
     plt.plot(predictions, color='red', label='Predicted Stock Price')
@@ -212,8 +237,6 @@ def main():
     plt.ylabel('Stock Price')
     plt.legend()
     plt.show()
-
-
 
     
 
