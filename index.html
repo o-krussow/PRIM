@@ -1,8 +1,11 @@
 <html>
 <head>
 	<title>PRIM</title>
+	<link rel="stylesheet" href="index.css">
 </head>
+
 <script type="text/javascript" src="index.js"></script>
+
 <body>
 	<center><h1>PRIM</h1></center>
 	<label for="begin">I want to </label>
@@ -13,6 +16,22 @@
 		<option value="predict">predict</option>
 		<option value="compare">compare</option>
 	</select>
+
+	<div id="suggestResult" style="display:none;">
+		<p> the best stock.</p>
+	</div>
+
+	<div id="predictResult" style="display: none;">
+		<input type="text" id="stockInput" placeholder="Stock name">
+		<p> for </p>
+		<input type="text" id="timeInput" placeholder="Amount of Time">
+	</div>
+
+	<div id="compareResult" style="display: none;">
+		<input type="text" id="stockOne" placeholder="Stock one">
+		<p> to </p>
+		<input type="text" id="stockTwo" placeholder="Stock two">
+	</div>
 
 	<div>
 </body>
