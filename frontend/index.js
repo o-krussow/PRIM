@@ -1,18 +1,11 @@
 function secondLevel(beginValue)
 {
-	if (beginValue == "null")
-	{
-		document.getElementById("suggestResult").style.display = "none";
-		document.getElementById("predictResult").style.display = "none";
-		document.getElementById("compareResult").style.display = "none";
-		showData('nullSubmit');
-
-	}
 	if (beginValue == "suggest")
 	{
 		document.getElementById("suggestResult").style.display = "inline-block";
 		document.getElementById("predictResult").style.display = "none";
 		document.getElementById("compareResult").style.display = "none";
+		document.getElementById("sentence").innerHTML = "suggest";
 		showData('suggestSubmit');
 	}
 	if (beginValue == "predict")
@@ -20,6 +13,7 @@ function secondLevel(beginValue)
 		document.getElementById("suggestResult").style.display = "none";
 		document.getElementById("predictResult").style.display = "inline-block";
 		document.getElementById("compareResult").style.display = "none";
+		document.getElementById("sentence").innerHTML = "predict";
 		document.getElementById("suggestData").style.display = "none";
 		document.getElementById("predictData").style.display = "none";
 		document.getElementById("compareData").style.display = "none";
@@ -29,6 +23,7 @@ function secondLevel(beginValue)
 		document.getElementById("suggestResult").style.display = "none";
 		document.getElementById("predictResult").style.display = "none";
 		document.getElementById("compareResult").style.display = "inline-block";
+		document.getElementById("sentence").innerHTML = "compare";
 		document.getElementById("suggestData").style.display = "none";
 		document.getElementById("predictData").style.display = "none";
 		document.getElementById("compareData").style.display = "none";
@@ -37,12 +32,6 @@ function secondLevel(beginValue)
 
 function showData(whichData)
 {
-	if (whichData == 'nullSubmit')
-	{
-		document.getElementById("suggestData").style.display = "none";
-		document.getElementById("predictData").style.display = "none";
-		document.getElementById("predictData").style.display = "none";
-	}
 	if (whichData == 'suggestSubmit')
 	{
 		/* INSERT CODE TO GENERATE STOCK DATA FOR SUGGEST HERE */
@@ -53,6 +42,13 @@ function showData(whichData)
 	if (whichData == 'predictSubmit')
 	{
 		/* INSERT CODE TO GENERATE STOCK DATA FOR PREDICT HERE */
+		let stock = document.getElementById("stockInput").value;
+		let time = document.getElementById("timeInput").value;
+		if (stock.length < 1 || time.length < 1)
+		{
+			alert("Field(s) are blank");
+			return;
+		}
 		document.getElementById("suggestData").style.display = "none";
 		document.getElementById("predictData").style.display = "block";
 		document.getElementById("compareData").style.display = "none";
@@ -60,6 +56,13 @@ function showData(whichData)
 	if (whichData == 'compareSubmit')
 	{
 		/* INSERT CODE TO GENERATE STOCK DATA FOR COMPARE HERE */
+		let stockOne = document.getElementById("stockOne").value;
+		let stockTwo = document.getElementById("stockTwo").value;
+		if (stockOne.length < 1 || stockTwo.length < 1)
+		{
+			alert("Field(s) are blank");
+			return;
+		}
 		document.getElementById("suggestData").style.display = "none";
 		document.getElementById("predictData").style.display = "none";
 		document.getElementById("compareData").style.display = "block";
