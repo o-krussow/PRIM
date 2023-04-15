@@ -116,15 +116,13 @@ class Model:
         print(best_model[1])
 
         #return to model_manager for graphs
-        return(self._return_test_df, 
-               self._model(self._return_test_df),
-               self.history.history['loss'],
-               self.history.history['val_loss']
-               )
-
+        return (self.history.history['loss'], self.history.history['val_loss'])
 
     def _reset_weights(self):
         self._model.load_weights('model.h5')
+
+    def test(self):
+        #take the 20% closest values
 
     def predict(self, futurecast):
         predictions = []
@@ -137,7 +135,7 @@ class Model:
 
     def _predict_next_timestep(self):
         test_inputs = self._df_train_unscaled[-self._time_span:]
-        test_inputs = test_inputs.reshape(-1,1)
+        test_inputs = test_inputs.reshape(-1, 1)
         test_inputs = self._scaler.transform(test_inputs)
 
         test_features = []
