@@ -85,10 +85,11 @@ class Model:
 
         #now train the model using our features and label
         es = EarlyStopping(monitor = 'val_loss', 
-                           patience = 20,
-                           min_delta = .0005,
-                           start_from_epoch = 10,
-                           verbose = 1)
+                           patience = 20,   #Number of epochs with no improvement after which training will be stopped.
+                           min_delta = .00005,  #Minimum change in the monitored quantity to qualify as improvement
+                           start_from_epoch = 20,
+                           verbose = 1,
+                           restore_best_weights= True)
         history = History()
         result = self._model.fit(self._features_set, self._labels, 
                         epochs = epochs, batch_size = self._batch_size,
