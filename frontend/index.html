@@ -8,9 +8,9 @@
 
 <body>
 	<center><h1>PRIM</h1></center>
-	<label for="begin">I want to </label>
+	<label for="begin" style="display:inline-block;">I want to </label>
 
-	<select name="begin" id="begin" onchange="secondLevel(this.value)">
+	<select name="begin" id="begin" style="display:inline-block;" onchange="secondLevel(this.value)">
 		<option value="null"> </option>
 		<option value="suggest">suggest</option>
 		<option value="predict">predict</option>
@@ -18,19 +18,21 @@
 	</select>
 
 	<div id="suggestResult" style="display:none;">
-		<p> the best stock.</p>
+		<p > the best stock.</p>
 	</div>
 
 	<div id="predictResult" style="display: none;">
-		<input type="text" id="stockInput" placeholder="Stock name">
-		<p> for </p>
-		<input type="text" id="timeInput" placeholder="Amount of Time">
+		<input type="text" id="stockInput" style="display:inline-block;" placeholder="Stock name">
+		<p style="display:inline-block;"> for </p>
+		<input type="text" id="timeInput" style="display:inline-block;" placeholder="Amount of Time">
+		<input type="submit" id="submit" style="display:inline-block;">
 	</div>
 
 	<div id="compareResult" style="display: none;">
-		<input type="text" id="stockOne" placeholder="Stock one">
-		<p> to </p>
-		<input type="text" id="stockTwo" placeholder="Stock two">
+		<input type="text" id="stockOne" style="display:inline-block;" placeholder="Stock one">
+		<p style="display:inline-block;"> to </p>
+		<input type="text" id="stockTwo" style="display:inline-block;" placeholder="Stock two">
+		<input type="submit" id="submit" style="display:inline-block;">
 	</div>
 
 	<div>
