@@ -32,7 +32,7 @@
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-						Deez NutsDeez NutsDeez NutsDeez NutsDeez NutsDeez NutsDeez NutsDeez NutsDeez NutsDeez NutsDeez NutsDeez NutsDeez NutsDeez Nuts
+						[INSERT DESCRIPTION]
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="shine btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -43,14 +43,15 @@
 	</br>
 	<!-- END -->
 
+	<!-- CODE FOR NAVIGATION BAR -->
 	<ul>
 		<li><a class="active" id="one" href="#home" onclick="active(1)">Option 1</a></li>
 		<li><a href="#news" id="two" onclick="active(2)">Option 2</a></li>
 	</ul>
+	<!-- END -->
 
-
+	<!-- CODE FOR FIRST OPTION -->
 	<center>
-		<!-- CODE FOR INITIAL DROP DOWN -->
 		<div id="optionOne">
 			<label for="begin"  id="begin" style="display:inline-block; position: relative; top: 5px;">I want to </label>
 			<div class="dropdown" id="dropdown">
@@ -85,9 +86,21 @@
 				<input type="text" id="stockTwo" style="display:inline-block;" placeholder="Stock two">
 				<input type="submit" id="submitCompare" class = "btn btn-success" onclick="showData('compareSubmit')" style="display:inline-block;">
 			</div>
-		<!-- END -->
 		</div>
 	</center>
+	<!-- END -->
+
+	<!-- CODE FOR SECOND OPTION -->
+	<center>
+		<div id="optionTwo" style="display:none">
+			<div class="mb-3">
+  				<label for="formFile" class="form-label">Upload .csv file</label>
+  				<input class="form-control" type="file" id="formFile"><br>
+  				<input type="submit" id="select" class = "btn btn-success" style="display:inline-block;">
+			</div>
+		</div>
+	</center>
+	<!-- END -->
 
 	<!-- STOCK INFORMATION SHOULD BE IN THESE HTML TAGS -->
 	<div id="suggestData" style="display:none">

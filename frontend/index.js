@@ -76,6 +76,7 @@ function active(tab)
 		document.getElementById("one").classList.add("active");
 		document.getElementById("two").classList.remove("active");
 		document.getElementById("optionOne").style.display = "inline-block";
+		document.getElementById("optionTwo").style.display = "none";
 
 	}
 	if (tab == 2)
@@ -83,5 +84,6 @@ function active(tab)
 		document.getElementById("one").classList.remove("active");
 		document.getElementById("two").classList.add("active");
 		document.getElementById("optionOne").style.display = "none";
+		document.getElementById("optionTwo").style.display = "inline-block";
 	}
 }
