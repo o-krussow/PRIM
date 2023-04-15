@@ -3,6 +3,7 @@ import json
 import lstm
 import matplotlib.pyplot as plt
 import yfinance as yf
+import datetime
 
 class model_manager:
 
@@ -11,17 +12,31 @@ class model_manager:
         self._ticker_prices_csv_path = "./ticker_prices/"
         self._graph_dir = "./graphs/"
         self._pickled_models_path = "./pickled_models/" #adjust if you put pickled files in sub directory
+        self.ticker_times = {}
+        self.current_date = datetime.datetime.now().date()
 
         try:
             with open("trained-models.json") as f:
-                tickers = json.load(f)
+                self.tickers = json.load(f)
+
+            delta = datetime.timedelta(days=30)
+            past_date = self.current_date - delta
 
             #depickle models for tickers
-            for ticker in tickers: #Assuming pickled file name is just the ticker
+            for ticker in self.tickers: #Assuming pickled file name is just the ticker
+                if self.ticker_times[ticker] == None:
+                    continue
+                elif self.ticker_times[ticker] <= past_date:
+                    continue
+
                 self.models[ticker] = pickle.load(open(self._pickled_models_path+ticker, "rb"))
 
         except FileNotFoundError:
             #If file does not exist, we do nothing
+            pass
+
+        except KeyError:
+            #If ticker does not have a date assigned to model, do nothing
             pass
 
 
@@ -48,6 +63,7 @@ class model_manager:
 
 
     def add_model(self, ticker_name):
+
         self._get_stock_data(ticker_name)
         #now there will be a ticker_name.csv file in self._ticker_prices_csv_path
 
@@ -60,6 +76,9 @@ class model_manager:
 
         #pickle the new trained model
         self._pickle_model(ticker_name)
+
+        #add date of model formation to ticker dictionary
+        self.ticker_times[ticker_name] = self.current_date
 
         self._commit_json() #this just updates our list of tickers that we have a model for
 
@@ -105,11 +124,7 @@ def main():
 
 
     print(mm.get_ticker_prediction("BASMX", 10))
+    print(mm.ticker_times["BASMX"])
 
 if __name__ == "__main__":
     main()
-
-
-
-
-
