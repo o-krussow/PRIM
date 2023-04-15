@@ -5,51 +5,91 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap" rel="stylesheet">
-		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-		integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+	integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-		integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-		crossorigin="anonymous"></script>
+	integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+	crossorigin="anonymous"></script>
 </head>
 
 <script type="text/javascript" src="index.js"></script>
 
 <body>
 	<div class="container">
+	<!-- HEADER OF WEBSITE -->
 	<center><h1>PRIM</h1></center>
 	<center><h2>Predictive Return on Investment Model</h2></center>
-	<center><h6>Created by Sam Aldeguer, Pierce Lane, Owen Krussow, Chase Horner</h6></center>
-</br>
-<center>
-	<label for="begin" style="display:inline-block; position: relative; top: 5px;">I want to </label>
+	<center><h6>Created by Pierce Lane, Owen Krussow, Sam Aldeguer, Chase Horner</h6></center>
+	<!-- END -->
 
-	<div class="dropdown">
-		<button class="btn btn-success dropdown-toggle" id="sentence">SELECT</button>
-		<div class="dropdown-content">
-			<a href="#" onclick = "secondLevel('suggest')">suggest</a>
-			<a href="#" onclick = "secondLevel('predict')">predict</a>
-			<a href="#" onclick = "secondLevel('compare')">compare</a>
+	<!-- CODE FOR "What is PRIM?" BUTTON AND MODAL -->
+	<center><button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal" style="font-weight: 500; margin-top:10px; margin-bottom:10px;">What is PRIM?</button></center>
+	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">PRIM</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+						Deez NutsDeez NutsDeez NutsDeez NutsDeez NutsDeez NutsDeez NutsDeez NutsDeez NutsDeez NutsDeez NutsDeez NutsDeez NutsDeez Nuts
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="shine btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				</div>
+			</div>
 		</div>
 	</div>
+	</br>
+	<!-- END -->
 
-	<div id="suggestResult" style="display:none;">
-		<p style="position: relative; top: 5px;"> the best stock.</p>
-	</div>
+	<ul>
+		<li><a class="active" id="one" href="#home" onclick="active(1)">Option 1</a></li>
+		<li><a href="#news" id="two" onclick="active(2)">Option 2</a></li>
+	</ul>
 
-	<div id="predictResult" style="display: none;">
-		<input type="text" id="stockInput" style="display:inline-block;" placeholder="Stock name">
-		<p style="display:inline-block; position: relative; top: 5px; padding: 5px;">   for   </p>
-		<input type="text" id="timeInput" style="display:inline-block;" placeholder="Amount of Time">
-		<input type="submit" id="submitPredict" class="btn btn-success" onclick="showData('predictSubmit')" style="display:inline-block;">
-	</div>
 
-	<div id="compareResult" style="display: none;">
-		<input type="text" id="stockOne" style="display:inline-block;" placeholder="Stock one">
-		<p style="display:inline-block; position: relative; top: 5px; padding: 5px;">   to   </p>
-		<input type="text" id="stockTwo" style="display:inline-block;" placeholder="Stock two">
-		<input type="submit" id="submitCompare" class = "btn btn-success" onclick="showData('compareSubmit')" style="display:inline-block;">
-	</div>
-</div></center>
+	<center>
+		<!-- CODE FOR INITIAL DROP DOWN -->
+		<div id="optionOne">
+			<label for="begin"  id="begin" style="display:inline-block; position: relative; top: 5px;">I want to </label>
+			<div class="dropdown" id="dropdown">
+				<button class="btn btn-success dropdown-toggle" id="sentence">SELECT</button>
+				<div class="dropdown-content">
+					<a href="#" onclick = "secondLevel('suggest')">suggest</a>
+					<a href="#" onclick = "secondLevel('predict')">predict</a>
+					<a href="#" onclick = "secondLevel('compare')">compare</a>
+				</div>
+			</div>
+			<!-- END -->
+
+			<!-- SUBSEQUENT CODE FOR SUGGEST OPTION -->
+			<div id="suggestResult" style="display:none;">
+				<p style="position: relative; top: 5px;"> the best stock.</p>
+			</div>
+			<!-- END -->
+
+			<!-- SUBSEQUENT CODE FOR PREDICT OPTION -->
+			<div id="predictResult" style="display: none;">
+				<input type="text" id="stockInput" style="display:inline-block;" placeholder="Stock name">
+				<p style="display:inline-block; position: relative; top: 5px; padding: 5px;">   for   </p>
+				<input type="text" id="timeInput" style="display:inline-block;" placeholder="Amount of Time">
+				<input type="submit" id="submitPredict" class="btn btn-success" onclick="showData('predictSubmit')" style="display:inline-block;">
+			</div>
+			<!-- END -->
+
+			<!-- SUBSEQUENT CODE FOR COMPARE OPTION -->
+			<div id="compareResult" style="display: none;">
+				<input type="text" id="stockOne" style="display:inline-block;" placeholder="Stock one">
+				<p style="display:inline-block; position: relative; top: 5px; padding: 5px;">   to   </p>
+				<input type="text" id="stockTwo" style="display:inline-block;" placeholder="Stock two">
+				<input type="submit" id="submitCompare" class = "btn btn-success" onclick="showData('compareSubmit')" style="display:inline-block;">
+			</div>
+		<!-- END -->
+		</div>
+	</center>
+
+	<!-- STOCK INFORMATION SHOULD BE IN THESE HTML TAGS -->
 	<div id="suggestData" style="display:none">
 		<h3>INSERT SUGGEST DATA</h3>
 	</div>
@@ -61,11 +101,8 @@
 	<div id="compareData" style="display:none">
 		<h3>INSERT COMPARE DATA</h3>
 	</div>
+	<!-- END -->
 
-	<p><img src="{{test_graph}}"></p>
-
-	<div>
-	</div>
 </body>
 
 </html>

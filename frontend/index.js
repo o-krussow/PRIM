@@ -68,3 +68,20 @@ function showData(whichData)
 		document.getElementById("compareData").style.display = "block";
 	}
 }
+
+function active(tab)
+{
+	if (tab == 1)
+	{
+		document.getElementById("one").classList.add("active");
+		document.getElementById("two").classList.remove("active");
+		document.getElementById("optionOne").style.display = "inline-block";
+
+	}
+	if (tab == 2)
+	{
+		document.getElementById("one").classList.remove("active");
+		document.getElementById("two").classList.add("active");
+		document.getElementById("optionOne").style.display = "none";
+	}
+}
