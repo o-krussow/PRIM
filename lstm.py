@@ -120,7 +120,7 @@ class Model:
                self._model(self._return_test_df),
                self.history.history['loss'],
                self.history.history['val_loss']
-                 )
+               )
 
 
     def _reset_weights(self):
@@ -251,5 +251,5 @@ def main():
     
 
 if __name__ == "__main__":
-        main()
+    main()
 
