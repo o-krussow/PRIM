@@ -41,20 +41,20 @@ class model_manager:
 
 
     def graphs(self, model_output, ticker_name):
-        """
+        
         plt.figure(figsize=(10,6))
-        plt.plot(model_output[0], color='blue', label='Actual Stock Price')
-        plt.plot(model_output[1] , color='red', label='Predicted Stock Price')
-        plt.title('Stock Price Prediction')
-        plt.xlabel('Date')
-        plt.ylabel('Stock Price')
+        plt.plot(model_output[0], color='blue', label=f'Actual {ticker_name} Stock Price')
+        plt.plot(model_output[1], color='red', label=f'Predicted {ticker_name} Stock Price')
+        plt.title(f'{ticker_name} Stock Price Prediction')
+        plt.xlabel('Time (Days)')
+        plt.ylabel(f'{ticker_name} Stock Price')
         plt.legend()
         plt.savefig(self._graph_dir+ticker_name+"_test_output.jpg")
-        """
+        
 
-        plt.figure()
-        plt.plot(model_output[0])
-        plt.plot(model_output[1])
+        plt.figure(figsize=(10,6))
+        plt.plot(model_output[2], color='blue', label='Training Loss')
+        plt.plot(model_output[3], color='red', label='Testing Loss')
         plt.title('Model loss')
         plt.ylabel('Loss')
         plt.xlabel('Epoch')
@@ -70,7 +70,7 @@ class model_manager:
         model = lstm.Model(self._ticker_prices_csv_path+ticker_name+".csv") #opening that csv
         model_output = model.hyperfit() #not sure if this is the right prediction data, given that it is the test data and not fit but I'm not sure.
 
-        #self.graphs(model_output, ticker_name)
+        self.graphs(model_output, ticker_name)
 
         self.models[ticker_name] = model #add trained model to dictionary, the "" is just a placeholder
 

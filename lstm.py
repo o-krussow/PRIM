@@ -116,7 +116,7 @@ class Model:
         print(best_model[1])
 
         #return to model_manager for graphs
-        return (self.history.history['loss'], self.history.history['val_loss'])
+        return (self._return_test_df, self._return_test_df, self.history.history['loss'], self.history.history['val_loss'])
 
     def _reset_weights(self):
         self._model.load_weights('model.h5')
