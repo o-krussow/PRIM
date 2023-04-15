@@ -122,7 +122,7 @@ class Model:
         self._model.load_weights('model.h5')
 
     def test(self):
-        #take the 20% closest values
+        pass
 
     def predict(self, futurecast):
         predictions = []

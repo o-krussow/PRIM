@@ -26,6 +26,7 @@ class model_manager:
 
 
     def graphs(self, model_output, ticker_name):
+        """
         plt.figure(figsize=(10,6))
         plt.plot(model_output[0], color='blue', label='Actual Stock Price')
         plt.plot(model_output[1] , color='red', label='Predicted Stock Price')
@@ -34,10 +35,11 @@ class model_manager:
         plt.ylabel('Stock Price')
         plt.legend()
         plt.savefig(self._graph_dir+ticker_name+"_test_output.jpg")
+        """
 
         plt.figure()
-        plt.plot(model_output[2])
-        plt.plot(model_output[3])
+        plt.plot(model_output[0])
+        plt.plot(model_output[1])
         plt.title('Model loss')
         plt.ylabel('Loss')
         plt.xlabel('Epoch')
@@ -60,6 +62,18 @@ class model_manager:
         self._pickle_model(ticker_name)
 
         self._commit_json() #this just updates our list of tickers that we have a model for
+
+    def get_ticker_prediction(self, ticker_name, periods):
+
+        model_keys = list(self.models.keys())
+        if ticker_name not in model_keys: #if ticker has already been trained for
+            self.add_model(ticker_name)
+        
+        requested_model = self.models[ticker_name]
+
+        return requested_model.predict(periods)
+
+
 
     def _get_stock_data(self, ticker_name, period="10y", interval="1d"):
         stock_object = yf.Ticker(ticker_name)
@@ -90,7 +104,8 @@ class model_manager:
 def main():
     mm = model_manager()
 
-    print(mm.models) 
+
+    print(mm.get_ticker_prediction("BASMX", 10))
 
 if __name__ == "__main__":
     main()
