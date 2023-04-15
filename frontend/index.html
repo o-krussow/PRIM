@@ -25,14 +25,26 @@
 		<input type="text" id="stockInput" style="display:inline-block;" placeholder="Stock name">
 		<p style="display:inline-block;"> for </p>
 		<input type="text" id="timeInput" style="display:inline-block;" placeholder="Amount of Time">
-		<input type="submit" id="submit" style="display:inline-block;">
+		<input type="submit" id="submitPredict" onclick="showData('predictSubmit')" style="display:inline-block;">
 	</div>
 
 	<div id="compareResult" style="display: none;">
 		<input type="text" id="stockOne" style="display:inline-block;" placeholder="Stock one">
 		<p style="display:inline-block;"> to </p>
 		<input type="text" id="stockTwo" style="display:inline-block;" placeholder="Stock two">
-		<input type="submit" id="submit" style="display:inline-block;">
+		<input type="submit" id="submitCompare" onclick="showData('compareSubmit')" style="display:inline-block;">
+	</div>
+
+	<div id="suggestData" style="display:none">
+		<h3>INSERT SUGGEST DATA</h3>
+	</div>
+
+	<div id="predictData" style="display:none">
+		<h3>INSERT PREDICT DATA</h3>
+	</div>
+
+	<div id="compareData" style="display:none">
+		<h3>INSERT COMPARE DATA</h3>
 	</div>
 
 	<div>
