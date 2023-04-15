@@ -11,7 +11,7 @@ h2
   margin:  0;
 }
 
-h4
+h6
 {
   font-family: 'Oswald', sans-serif;
 }
@@ -19,6 +19,7 @@ h4
 p, label
 {
   font-family: 'Oswald', sans-serif;
+  font-size:  30px;
 }
 
 .encapsulate
@@ -67,4 +68,3 @@ p, label
 
 /* Change the background color of the dropdown button when the dropdown content is shown */
 .dropdown:hover .dropbtn {background-color: #3e8e41;}
-

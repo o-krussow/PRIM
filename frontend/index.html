@@ -18,9 +18,10 @@
 	<div class="container">
 	<center><h1>PRIM</h1></center>
 	<center><h2>Predictive Return on Investment Model</h2></center>
-	<center><h5>Created by Sam Aldeguer, Pierce Lane, Owen Krussow, Chase Horner</h5></center>
+	<center><h6>Created by Sam Aldeguer, Pierce Lane, Owen Krussow, Chase Horner</h6></center>
 </br>
-	<label for="begin" style="display:inline-block;">I want to </label>
+<center>
+	<label for="begin" style="display:inline-block; position: relative; top: 5px;">I want to </label>
 
 	<div class="dropdown">
 		<button class="btn btn-success dropdown-toggle" id="sentence">SELECT</button>
@@ -31,31 +32,24 @@
 		</div>
 	</div>
 
-	<!--<select name="begin" id="begin" style="display:inline-block;" onchange="secondLevel(this.value)">
-		<option value="null"> </option>
-		<option value="suggest">suggest</option>
-		<option value="predict">predict</option>
-		<option value="compare">compare</option>
-	</select>-->
-
 	<div id="suggestResult" style="display:none;">
-		<p> the best stock.</p>
+		<p style="position: relative; top: 5px;"> the best stock.</p>
 	</div>
 
 	<div id="predictResult" style="display: none;">
 		<input type="text" id="stockInput" style="display:inline-block;" placeholder="Stock name">
-		<p style="display:inline-block;"> for </p>
+		<p style="display:inline-block; position: relative; top: 5px; padding: 5px;">   for   </p>
 		<input type="text" id="timeInput" style="display:inline-block;" placeholder="Amount of Time">
 		<input type="submit" id="submitPredict" class="btn btn-success" onclick="showData('predictSubmit')" style="display:inline-block;">
 	</div>
 
 	<div id="compareResult" style="display: none;">
 		<input type="text" id="stockOne" style="display:inline-block;" placeholder="Stock one">
-		<p style="display:inline-block;"> to </p>
+		<p style="display:inline-block; position: relative; top: 5px; padding: 5px;">   to   </p>
 		<input type="text" id="stockTwo" style="display:inline-block;" placeholder="Stock two">
 		<input type="submit" id="submitCompare" class = "btn btn-success" onclick="showData('compareSubmit')" style="display:inline-block;">
 	</div>
-
+</div></center>
 	<div id="suggestData" style="display:none">
 		<h3>INSERT SUGGEST DATA</h3>
 	</div>
@@ -67,6 +61,8 @@
 	<div id="compareData" style="display:none">
 		<h3>INSERT COMPARE DATA</h3>
 	</div>
+
+	<p><img src="{{test_graph}}"></p>
 
 	<div>
 	</div>
