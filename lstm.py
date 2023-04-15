@@ -27,13 +27,13 @@ class Model:
         self._epochs = 100
         #open the data file
         self._df = pd.read_csv(data_file_name)
-        self._df_train = self._df.iloc[:, :].value
-        _null_train_df, self._return_test_df = train_test_split(self._df_train, train_size=0.8, test_size=0.2, shuffle=False)
+        self._df_train = self._df.iloc[:, :].values
         self._df_train_unscaled = self._df.iloc[:, :].values
 
         #scale the data to [0, 1]
         self._scaler = MinMaxScaler(feature_range = (0, 1))
         self._df_train = self._scaler.fit_transform(self._df_train)
+        self._return_train_df, self._return_test_df = train_test_split(self._df_train, train_size=0.8, test_size=0.2, shuffle=False)
         self._create_model()
 
     def _create_model(self):
@@ -45,6 +45,7 @@ class Model:
 
         self._features_set, self._labels = np.array(self._features_set), np.array(self._labels)
         self._features_set = np.reshape(self._features_set, (self._features_set.shape[0], self._features_set.shape[1], 1))
+        
  
         #make the model
         self._model = Sequential()
@@ -101,7 +102,7 @@ class Model:
         self._model.load_weights(checkpoint_path)
         return validation_loss
         
-    def hyperfit(self, epochs = [50, 100], batch_sizes = [7, 14, 32]):
+    def hyperfit(self, epochs = [10], batch_sizes = [32]):
         #lower fitness value is better
         #(best fitting model, fitness value of best model)
         best_model = (None,  0)
@@ -115,27 +116,49 @@ class Model:
         self._model = best_model[0]
         print(best_model[1])
 
+        # Load and preprocess test data
+        final_forecast = self._scaler.inverse_transform(self._model.forecast(self._return_test_df))
+
+
         #return to model_manager for graphs
-        return(self._return_test_df, 
+        '''return(self._return_test_df, 
                self._model(self._return_test_df),
                self.history.history['loss'],
                self.history.history['val_loss']
-                 )
+                 )'''
+        plt.figure(figsize=(10,6))
+        plt.plot(self._scaler.inverse_transform(self._return_test_df), color='blue', label='Actual Stock Price')
+        plt.plot(final_forecast, color='red', label='Predicted Stock Price')
+        plt.title('Stock Price Prediction')
+        plt.xlabel('Date')
+        plt.ylabel('Stock Price')
+        plt.legend()
+        plt.savefig("test_output.jpg")
+
+        plt.figure()
+        plt.plot(self.history.history['loss'])
+        plt.plot(self.history.history['val_loss'])
+        plt.title('Model loss')
+        plt.ylabel('Loss')
+        plt.xlabel('Epoch')
+        plt.legend(['Train', 'Test'], loc='upper left')
+        plt.savefig("error_output.jpg")
+
 
 
     def _reset_weights(self):
         self._model.load_weights('model.h5')
 
-    def predict(self, futurecast):
-        predictions = []
+    def forecast(self, futurecast):
+        forecasts = []
         for i in range(0, futurecast):
-            predictions.append(self._predict_next_timestep())
+            forecasts.append(self._forecast_next_timestep())
 
         self._df_train_unscaled = self._df.iloc[:, :].values
 
-        return predictions
+        return forecasts
 
-    def _predict_next_timestep(self):
+    def _forecast_next_timestep(self):
         test_inputs = self._df_train_unscaled[-self._time_span:]
         test_inputs = test_inputs.reshape(-1,1)
         test_inputs = self._scaler.transform(test_inputs)
@@ -146,11 +169,11 @@ class Model:
         test_features = np.array(test_features)   
         test_features = np.reshape(test_features, (test_features.shape[0], test_features.shape[1], 1))
 
-        prediction = self._model.predict(test_features, verbose = 0)
-        prediction = self._scaler.inverse_transform(prediction)
-        self._df_train_unscaled = np.append(self._df_train_unscaled, prediction)
+        final_forecast = self._model.forecast(test_features, verbose = 0)
+        final_forecast = self._scaler.inverse_transform(final_forecast)
+        self._df_train_unscaled = np.append(self._df_train_unscaled, final_forecast)
         
-        return prediction[0][0]
+        return final_forecast[0][0]
 
 def main():
     """
@@ -236,17 +259,17 @@ def main():
 
     model = Model("BASMX-10y-1d.csv")
     model.hyperfit()
-    predictions = model.predict(20)
+    #final_forcast = model.forecast(20)
 
     print(f"Time in seconds: {time.time() - start_time}")
-
+    '''
     plt.figure(figsize=(10,6))
     plt.plot(predictions, color='red', label='Predicted Stock Price')
     plt.title('Stock Price Prediction')
     plt.xlabel('Date')
     plt.ylabel('Stock Price')
     plt.legend()
-    plt.show()
+    plt.show()'''
 
     
 
