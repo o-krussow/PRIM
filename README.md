@@ -11,7 +11,7 @@ When user wants to train a model for a ticker, web server recieves post request 
    - First check if ticker has a model, and make sure it isn't expired.
 	 - If there is no existing model or existing model is expired, we fetches price data from yfinance and continue
 	 - Passes price data to model class, then tells it to start training
-	 - Model will return data from training, like loss data, which we will probably want to send back to the user in the form of a graph. So this data will be sent to model manager.
+	 - Model will return data from training, like loss data, which we will probably want to send back to the user in the form of a graph. So this data will be returned back to the context of model manager so it can put the pieces together
 	 - Once model is finished training, model manager pickles the model and saves it to local filesystem
 	 - Adds model to the model dictionary, {key: model}
  - Web server needs to send data back to the user
