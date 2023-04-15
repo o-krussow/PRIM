@@ -10,7 +10,7 @@ class model_manager:
         self.models = {} #Not going to make getters and setters, just easier to access this dictionary directly I think
         self._ticker_prices_csv_path = "./ticker_prices/"
         self._graph_dir = "./graphs/"
-        self._ticker_files_path = "./pickled_models/" #adjust if you put pickled files in sub directory
+        self._pickled_models_path = "./pickled_models/" #adjust if you put pickled files in sub directory
 
         try:
             with open("trained-models.json") as f:
@@ -18,7 +18,7 @@ class model_manager:
 
             #depickle models for tickers
             for ticker in tickers: #Assuming pickled file name is just the ticker
-                self.models[ticker] = pickle.load(open(self._ticker_files_path+ticker, "rb"))
+                self.models[ticker] = pickle.load(open(self._pickled_models_path+ticker, "rb"))
 
         except FileNotFoundError:
             #If file does not exist, we do nothing
@@ -64,7 +64,6 @@ class model_manager:
         self._commit_json() #this just updates our list of tickers that we have a model for
 
     def get_ticker_prediction(self, ticker_name, periods):
-
         model_keys = list(self.models.keys())
         if ticker_name not in model_keys: #if ticker has already been trained for
             self.add_model(ticker_name)
@@ -89,10 +88,10 @@ class model_manager:
 
 
 
-    def _pickle_model(self, ticker):
+    def _pickle_model(self, ticker): #takes an instance of the model class and pickles it into the pickle directory
         model = self.models[ticker]
 
-        with open(self._ticker_files_path+ticker, "wb") as f:
+        with open(self._pickled_models_path+ticker, "wb") as f:
             pickle.dump(model, f) #so we can access later
 
     def _commit_json(self):
