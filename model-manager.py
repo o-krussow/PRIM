@@ -1,5 +1,7 @@
 import pickle
 import json
+import lstm
+import matplotlib.pyplot as plt
 
 class model_manager:
 
@@ -21,9 +23,34 @@ class model_manager:
                 json.dump(f, []) #just make empty json if it doesn't exist already, this doesn't really NEED to happen because commit_json will do it anyways but it's fine
 
 
-    def access_model(self, ticker_name): #I named this totally arbitrarily, I don't really know how we want to do this part
+    def tune_model(self, csv_path): #I named this totally arbitrarily, I don't really know how we want to do this part
         #run inference/somehow call predict function in pierce's thing however he decides to make it work
+
+        model = lstm.Model(csv_path)
+        model_output = model.hyperfit()
+        self.graphs(model_output)
+
         pass
+
+    def graphs(self, model_output):
+        plt.figure(figsize=(10,6))
+        plt.plot(model_output[0], color='blue', label='Actual Stock Price')
+        plt.plot(model_output[1] , color='red', label='Predicted Stock Price')
+        plt.title('Stock Price Prediction')
+        plt.xlabel('Date')
+        plt.ylabel('Stock Price')
+        plt.legend()
+        plt.savefig("test_output.jpg")
+
+        plt.figure()
+        plt.plot(model_output[2])
+        plt.plot(model_output[3])
+        plt.title('Model loss')
+        plt.ylabel('Loss')
+        plt.xlabel('Epoch')
+        plt.legend(['Train', 'Test'], loc='upper left')
+        plt.savefig("error_output.jpg")
+
 
     def add_model(self, ticker_name):
 

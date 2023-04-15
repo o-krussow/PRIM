@@ -27,7 +27,8 @@ class Model:
         self._epochs = 100
         #open the data file
         self._df = pd.read_csv(data_file_name)
-        self._df_train = self._df.iloc[:, :].values
+        self._df_train = self._df.iloc[:, :].value
+        _null_train_df, self._return_test_df = train_test_split(self._df_train, train_size=0.8, test_size=0.2, shuffle=False)
         self._df_train_unscaled = self._df.iloc[:, :].values
 
         #scale the data to [0, 1]
@@ -90,7 +91,7 @@ class Model:
                            start_from_epoch = 20,
                            verbose = 1,
                            restore_best_weights= True)
-        history = History()
+        self.history = History()
         result = self._model.fit(self._features_set, self._labels, 
                         epochs = epochs, batch_size = self._batch_size,
                         verbose = 1, 
@@ -113,6 +114,14 @@ class Model:
 
         self._model = best_model[0]
         print(best_model[1])
+
+        #return to model_manager for graphs
+        return(self._return_test_df, 
+               self._model(self._return_test_df),
+               self.history.history['loss'],
+               self.history.history['val_loss']
+                 )
+
 
     def _reset_weights(self):
         self._model.load_weights('model.h5')
