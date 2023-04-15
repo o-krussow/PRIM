@@ -2,7 +2,19 @@
 <head>
 	<title>PRIM</title>
 </head>
+<script type="text/javascript" src="index.js"></script>
 <body>
 	<center><h1>PRIM</h1></center>
+	<label for="begin">I want to </label>
+
+	<select name="begin" id="begin" onchange="secondLevel(this.value)">
+		<option value="null"> </option>
+		<option value="suggest">suggest</option>
+		<option value="predict">predict</option>
+		<option value="compare">compare</option>
+	</select>
+
+	<div>
 </body>
+
 </html>
