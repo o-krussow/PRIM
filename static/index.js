@@ -5,6 +5,7 @@ function secondLevel(beginValue)
 		document.getElementById("suggestResult").style.display = "inline-block";
 		document.getElementById("predictResult").style.display = "none";
 		document.getElementById("compareResult").style.display = "none";
+		document.getElementById("formTrain").style.display = "none";
 		document.getElementById("sentence").innerHTML = "suggest";
 		showData('suggestSubmit');
 	}
@@ -13,6 +14,7 @@ function secondLevel(beginValue)
 		document.getElementById("suggestResult").style.display = "none";
 		document.getElementById("predictResult").style.display = "inline-block";
 		document.getElementById("compareResult").style.display = "none";
+		document.getElementById("formTrain").style.display = "none";
 		document.getElementById("sentence").innerHTML = "predict";
 		document.getElementById("suggestData").style.display = "none";
 		document.getElementById("predictData").style.display = "none";
@@ -23,7 +25,8 @@ function secondLevel(beginValue)
 		document.getElementById("suggestResult").style.display = "none";
 		document.getElementById("predictResult").style.display = "none";
 		document.getElementById("compareResult").style.display = "inline-block";
-		document.getElementById("sentence").innerHTML = "compare";
+		document.getElementById("formTrain").style.display = "block";
+		document.getElementById("sentence").innerHTML = "train";
 		document.getElementById("suggestData").style.display = "none";
 		document.getElementById("predictData").style.display = "none";
 		document.getElementById("compareData").style.display = "none";
@@ -53,7 +56,7 @@ function showData(whichData)
 		}
 		$.ajax(
 		{
-			url:"/test",
+			url:"/predict",
 			type:"POST",
 			contentType:"application/json",
 			data: JSON.stringify(s)

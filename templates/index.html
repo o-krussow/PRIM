@@ -33,7 +33,8 @@
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-						[INSERT DESCRIPTION]
+						PRIM (Predictive Return on Investment Model) is a service that utilizes a Long Short-Term Memory Neural Network to predict a stock’s price in the future. The user has the option 
+to view the most promising stock, to predict a stock’s price in an inputted amount of days, or to train and predict their own stock’s price data.
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="shine btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -44,12 +45,7 @@
 	</br>
 	<!-- END -->
 
-	<!-- CODE FOR NAVIGATION BAR -->
-	<ul>
-		<li><a class="active" id="one" href="#home" onclick="active(1)">Option 1</a></li>
-		<li><a href="#news" id="two" onclick="active(2)">Option 2</a></li>
-	</ul>
-	<!-- END -->
+	<div style="width:1670px;height:50px; background-color:  #208454; position: relative; right: 300px"></div><br>
 
 	<!-- CODE FOR FIRST OPTION -->
 	<center>
@@ -60,7 +56,7 @@
 				<div class="dropdown-content">
 					<a href="#" onclick = "secondLevel('suggest')">suggest</a>
 					<a href="#" onclick = "secondLevel('predict')">predict</a>
-					<a href="#" onclick = "secondLevel('compare')">compare</a>
+					<a href="#" onclick = "secondLevel('compare')">train</a>
 				</div>
 			</div>
 			<!-- END -->
@@ -82,11 +78,15 @@
 
 			<!-- SUBSEQUENT CODE FOR COMPARE OPTION -->
 			<div id="compareResult" style="display: none;">
-				<input type="text" id="stockOne" style="display:inline-block;" placeholder="Stock one">
-				<p style="display:inline-block; position: relative; top: 5px; padding: 5px;">   to   </p>
-				<input type="text" id="stockTwo" style="display:inline-block;" placeholder="Stock two">
+				<p style="display:inline-block; position: relative; top: 5px; padding: 5px;"> a model on my own stock data.</p>
+			</div>
+			<div id="formTrain" style="display:none;">
+				<br><br><br>
+				 <label for="formFile" class="form-label">Upload .csv file</label>
+  				<input class="form-control" type="file" id="formFile"><br>
 				<input type="submit" id="submitCompare" class = "btn btn-success" onclick="showData('compareSubmit')" style="display:inline-block;">
 			</div>
+			<!-- END -->
 		</div>
 	</center>
 	<!-- END -->
@@ -109,7 +109,7 @@
 	</div>
 
 	<div id="predictData" style="display:none">
-		<h3>INSERT PREDICT DATA</h3>
+		<h3>{{ name }}</h3>
 	</div>
 
 	<div id="compareData" style="display:none">

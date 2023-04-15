@@ -103,3 +103,24 @@ li a:hover:not(.active) {
   background-color: #3e8e41;
 }
 
+.hwrap {
+  overflow: hidden;
+  background: #eee;
+}
+ 
+.hmove { display: flex; }
+
+.hitem {
+  flex-shrink: 0;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px;
+  text-align: center;
+}
+ 
+@keyframes tickerh {
+  0% { transform: translate3d(100%, 0, 0); }
+  100% { transform: translate3d(-400%, 0, 0); }
+}
+.hmove { animation: tickerh linear 20s infinite; }
+.hmove:hover { animation-play-state: paused; }

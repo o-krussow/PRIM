@@ -4,21 +4,20 @@ from flask import request
 import json
 
 app = Flask(__name__)
+results = []
 
 @app.route("/")
 def main():
 
-	return render_template("index.html")
+	return render_template("index.html", name = results)
 
-@app.route('/test', methods=['POST'])
-def test():
+@app.route('/predict', methods=['POST'])
+def predict():
 	modelManager = model_manager();
 	output = request.get_json()
 	result = json.loads(output)
 	print(modelManager.get_ticker_prediction(result["stock"], int(result["time"])))
 	return result
 
-
-
 if __name__ == "__main__":
-	app.run(debug=True, port=6968)
+	app.run(debug=True, port=6967)
