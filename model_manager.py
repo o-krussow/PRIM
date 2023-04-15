@@ -54,7 +54,7 @@ class model_manager:
         model = lstm.Model(self._ticker_prices_csv_path+ticker_name+".csv") #opening that csv
         model_output = model.hyperfit() #not sure if this is the right prediction data, given that it is the test data and not fit but I'm not sure.
 
-        self.graphs(model_output, ticker_name)
+        #self.graphs(model_output, ticker_name)
 
         self.models[ticker_name] = model #add trained model to dictionary, the "" is just a placeholder
 

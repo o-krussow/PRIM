@@ -44,11 +44,21 @@ function showData(whichData)
 		/* INSERT CODE TO GENERATE STOCK DATA FOR PREDICT HERE */
 		let stock = document.getElementById("stockInput").value;
 		let time = document.getElementById("timeInput").value;
+		const dict_values = {stock, time}
+		const s = JSON.stringify(dict_values)
 		if (stock.length < 1 || time.length < 1)
 		{
 			alert("Field(s) are blank");
 			return;
 		}
+		$.ajax(
+		{
+			url:"/test",
+			type:"POST",
+			contentType:"application/json",
+			data: JSON.stringify(s)
+
+		});
 		document.getElementById("suggestData").style.display = "none";
 		document.getElementById("predictData").style.display = "block";
 		document.getElementById("compareData").style.display = "none";
