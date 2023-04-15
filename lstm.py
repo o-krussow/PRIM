@@ -27,7 +27,7 @@ class Model:
         self._epochs = 100
         #open the data file
         self._df = pd.read_csv(data_file_name)
-        self._df_train = self._df.iloc[:, :].value
+        self._df_train = self._df.iloc[:, :].values
         _null_train_df, self._return_test_df = train_test_split(self._df_train, train_size=0.8, test_size=0.2, shuffle=False)
         self._df_train_unscaled = self._df.iloc[:, :].values
 
@@ -50,22 +50,22 @@ class Model:
         self._model = Sequential()
 
         #add an lstm layer
-        self._model.add(LSTM(units=50, return_sequences=True, input_shape=(self._features_set.shape[1], 1)))
+        self._model.add(LSTM(units=2, return_sequences=True, input_shape=(self._features_set.shape[1], 1)))
         #then add a dropout layer to prevent overfitting to training data
         self._model.add(Dropout(0.2))
         
         #add another couple lstm/droupout layers
-        self._model.add(LSTM(units=50, return_sequences=True))
+        self._model.add(LSTM(units=2, return_sequences=True))
         self._model.add(Dropout(0.2))
 
-        self._model.add(LSTM(units=50, return_sequences=True))
+        self._model.add(LSTM(units=2, return_sequences=True))
         self._model.add(Dropout(0.2))
 
-        self._model.add(LSTM(units=50))
+        self._model.add(LSTM(units=2))
         self._model.add(Dropout(0.2))
 
         #now add a Dense layer that condenses the inputs into a single value output
-        self._model.add(Dense(units = 1))
+        self._model.add(Dense(units = 2))
      
         #now compile the model
         self._model.compile(optimizer = 'adam', loss = 'mean_squared_error')
@@ -101,7 +101,7 @@ class Model:
         self._model.load_weights(checkpoint_path)
         return validation_loss
         
-    def hyperfit(self, epochs = [50, 100], batch_sizes = [7, 14, 32]):
+    def hyperfit(self, epochs = [2], batch_sizes = [7, 14, 32]):
         #lower fitness value is better
         #(best fitting model, fitness value of best model)
         best_model = (None,  0)
