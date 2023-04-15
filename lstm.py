@@ -96,7 +96,7 @@ class Model:
                         epochs = epochs, batch_size = self._batch_size,
                         verbose = 1, 
                         validation_split = 0.2, 
-                        callbacks=[model_checkpoint_callback, history, es])
+                        callbacks=[model_checkpoint_callback, self.history, es])
         validation_loss = np.amin(result.history['val_loss'])
         self._model.load_weights(checkpoint_path)
         return validation_loss
