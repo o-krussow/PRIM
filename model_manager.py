@@ -1,6 +1,8 @@
 import pickle
 import json
 import lstm
+import matplotlib
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import yfinance as yf
 import datetime
@@ -10,34 +12,22 @@ class model_manager:
     def __init__(self):
         self.models = {} #Not going to make getters and setters, just easier to access this dictionary directly I think
         self._ticker_prices_csv_path = "./ticker_prices/"
-        self._graph_dir = "./graphs/"
+        #self._graph_dir = "./graphs/"
         self._pickled_models_path = "./pickled_models/" #adjust if you put pickled files in sub directory
-        self.ticker_times = {}
-        self.current_date = datetime.datetime.now().date()
-
+        
         try:
             with open("trained-models.json") as f:
                 self.tickers = json.load(f)
 
-            delta = datetime.timedelta(days=30)
-            past_date = self.current_date - delta
 
             #depickle models for tickers
             for ticker in self.tickers: #Assuming pickled file name is just the ticker
-                if self.ticker_times[ticker] == None:
-                    continue
-                elif self.ticker_times[ticker] <= past_date:
-                    continue
-
                 self.models[ticker] = pickle.load(open(self._pickled_models_path+ticker, "rb"))
 
         except FileNotFoundError:
             #If file does not exist, we do nothing
             pass
 
-        except KeyError:
-            #If ticker does not have a date assigned to model, do nothing
-            pass
 
 
     def graphs(self, model_output, ticker_name):
@@ -49,7 +39,7 @@ class model_manager:
         plt.xlabel('Time (Days)')
         plt.ylabel(f'{ticker_name} Stock Price')
         plt.legend()
-        plt.savefig(self._graph_dir+ticker_name+"_test_output.jpg")
+        plt.savefig("./static/"+ticker_name+"_test_output.jpg")
         
 
         plt.figure(figsize=(10,6))
@@ -59,7 +49,7 @@ class model_manager:
         plt.ylabel('Loss')
         plt.xlabel('Epoch')
         plt.legend(['Train', 'Test'], loc='upper left')
-        plt.savefig(self._graph_dir+ticker_name+"_error_output.jpg")
+        plt.savefig("./static/"+ticker_name+"_error_output.jpg")
 
 
     def add_model(self, ticker_name):
@@ -77,8 +67,6 @@ class model_manager:
         #pickle the new trained model
         self._pickle_model(ticker_name)
 
-        #add date of model formation to ticker dictionary
-        self.ticker_times[ticker_name] = self.current_date
 
         self._commit_json() #this just updates our list of tickers that we have a model for
 

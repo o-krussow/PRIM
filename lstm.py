@@ -50,18 +50,18 @@ class Model:
         self._model = Sequential()
 
         #add an lstm layer
-        self._model.add(LSTM(units=2, return_sequences=True, input_shape=(self._features_set.shape[1], 1)))
+        self._model.add(LSTM(units=1, return_sequences=True, input_shape=(self._features_set.shape[1], 1)))
         #then add a dropout layer to prevent overfitting to training data
         self._model.add(Dropout(0.2))
         
         #add another couple lstm/droupout layers
-        self._model.add(LSTM(units=2, return_sequences=True))
+        self._model.add(LSTM(units=1, return_sequences=True))
         self._model.add(Dropout(0.2))
 
-        self._model.add(LSTM(units=2, return_sequences=True))
+        self._model.add(LSTM(units=1, return_sequences=True))
         self._model.add(Dropout(0.2))
 
-        self._model.add(LSTM(units=2))
+        self._model.add(LSTM(units=1))
         self._model.add(Dropout(0.2))
 
         #now add a Dense layer that condenses the inputs into a single value output

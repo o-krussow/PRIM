@@ -61,6 +61,11 @@ function showData(whichData)
 			contentType:"application/json",
 			data: JSON.stringify(s)
 
+		}).done(function(data){
+			let graph = document.createElement("img");
+			graph.src = data;
+			document.body.appendChild(graph);
+
 		});
 		document.getElementById("suggestData").style.display = "none";
 		document.getElementById("predictData").style.display = "block";
