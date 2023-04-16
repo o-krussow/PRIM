@@ -44,16 +44,18 @@ function showData(whichData)
 	}
 	if (whichData == 'predictSubmit')
 	{
-		/* INSERT CODE TO GENERATE STOCK DATA FOR PREDICT HERE */
 		let stock = document.getElementById("stockInput").value;
 		let time = document.getElementById("timeInput").value;
+		/* TAKE VALUES INPUTTED AND MAKE THEM SUITABLE FOR JSON */
 		const dict_values = {stock, time}
 		const s = JSON.stringify(dict_values)
+		/* IF EMPTY FIELD, GIVE ALERT AND RESTART */
 		if (stock.length < 1 || time.length < 1)
 		{
 			alert("Field(s) are blank");
 			return;
 		}
+		/* MAKE POST REQUEST CONTAINING INPUTTED VALUES (GO TO web.py LINE 28)*/
 		$.ajax(
 		{
 			url:"/predict",
@@ -61,7 +63,7 @@ function showData(whichData)
 			contentType:"application/json",
 			data: JSON.stringify(s)
 
-		}).done(function(data){
+		}).done(function(data){ /* GET RESPONSE VALUE (IMAGE NAME) FROM JSON REQUEST AND MAKE IMAGE FROM IT */
 			let graph = document.createElement("img");
 			graph.src = data;
 			document.body.appendChild(graph);

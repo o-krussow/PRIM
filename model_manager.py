@@ -39,7 +39,7 @@ class model_manager:
         plt.xlabel('Time (Days)')
         plt.ylabel(f'{ticker_name} Stock Price')
         plt.legend()
-        plt.savefig("./static/"+ticker_name+"_test_output.jpg")
+        plt.savefig("./static/"+ticker_name+"_test_output.jpg") # PUT ALL IMAGES IN STATIC FOR FLASK
         
 
         plt.figure(figsize=(10,6))
@@ -49,7 +49,7 @@ class model_manager:
         plt.ylabel('Loss')
         plt.xlabel('Epoch')
         plt.legend(['Train', 'Test'], loc='upper left')
-        plt.savefig("./static/"+ticker_name+"_error_output.jpg")
+        plt.savefig("./static/"+ticker_name+"_error_output.jpg") # PUT ALL IMAGES IN STATIC FOR FLASK
 
 
     def add_model(self, ticker_name):
