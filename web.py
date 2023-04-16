@@ -30,4 +30,4 @@ def renderPredict():
 	return predict() # Returns name of test graph image (GO TO index.js LINE 66)
 
 if __name__ == "__main__":
-	app.run(debug=True, port=6959)
+	app.run(debug=True, port=6958) # IF PORT ALREADY IN USE, JUST DECREASE PORT NUMBER
