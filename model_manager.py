@@ -33,8 +33,7 @@ class model_manager:
     def graphs(self, model_output, ticker_name):
         
         plt.figure(figsize=(10,6))
-        plt.plot(model_output[0], color='blue', label=f'Actual {ticker_name} Stock Price')
-        plt.plot(model_output[1], color='red', label=f'Predicted {ticker_name} Stock Price')
+        plt.plot(model_output[2], color='red', label=f'Predicted {ticker_name} Stock Price')
         plt.title(f'{ticker_name} Stock Price Prediction')
         plt.xlabel('Time (Days)')
         plt.ylabel(f'{ticker_name} Stock Price')
@@ -43,8 +42,8 @@ class model_manager:
         
 
         plt.figure(figsize=(10,6))
-        plt.plot(model_output[2], color='blue', label='Training Loss')
-        plt.plot(model_output[3], color='red', label='Testing Loss')
+        plt.plot(model_output[0], color='blue', label='Training Loss')
+        plt.plot(model_output[1], color='red', label='Testing Loss')
         plt.title('Model loss')
         plt.ylabel('Loss')
         plt.xlabel('Epoch')
@@ -52,13 +51,14 @@ class model_manager:
         plt.savefig("./static/"+ticker_name+"_error_output.jpg") # PUT ALL IMAGES IN STATIC FOR FLASK
 
 
-    def add_model(self, ticker_name):
+    def add_model(self, ticker_name, periods):
 
         self._get_stock_data(ticker_name)
         #now there will be a ticker_name.csv file in self._ticker_prices_csv_path
 
         model = lstm.Model(self._ticker_prices_csv_path+ticker_name+".csv") #opening that csv
         model_output = model.hyperfit() #not sure if this is the right prediction data, given that it is the test data and not fit but I'm not sure.
+        model_output.append( model.predict(periods))
 
         self.graphs(model_output, ticker_name)
 
@@ -73,12 +73,11 @@ class model_manager:
     def get_ticker_prediction(self, ticker_name, periods):
         model_keys = list(self.models.keys())
         if ticker_name not in model_keys: #if ticker has already been trained for
-            self.add_model(ticker_name)
+            self.add_model(ticker_name, periods)
         
         requested_model = self.models[ticker_name]
 
         return requested_model.predict(periods)
-
 
 
     def _get_stock_data(self, ticker_name, period="10y", interval="1d"):
@@ -92,7 +91,6 @@ class model_manager:
         with open(self._ticker_prices_csv_path+ticker_name+".csv", "w+") as f:
             for entry in stock_data_list:
                 f.write(str(entry)+"\n")
-
 
 
     def _pickle_model(self, ticker): #takes an instance of the model class and pickles it into the pickle directory
