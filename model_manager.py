@@ -57,9 +57,11 @@ class model_manager:
         #now there will be a ticker_name.csv file in self._ticker_prices_csv_path
 
         model = lstm.Model(self._ticker_prices_csv_path+ticker_name+".csv") #opening that csv
-        model_output = model.hyperfit() #not sure if this is the right prediction data, given that it is the test data and not fit but I'm not sure.
-        model_output.append( model.predict(periods))
-
+        model_output = []
+        temp_tuple = model.hyperfit(epochs = [50]) #not sure if this is the right prediction data, given that it is the test data and not fit but I'm not sure.
+        model_output.append(temp_tuple[0])
+        model_output.append(temp_tuple[1])
+        model_output.append(model.predict(periods))
         self.graphs(model_output, ticker_name)
 
         self.models[ticker_name] = model #add trained model to dictionary, the "" is just a placeholder
@@ -109,8 +111,7 @@ def main():
     mm = model_manager()
 
 
-    print(mm.get_ticker_prediction("BASMX", 10))
-    print(mm.ticker_times["BASMX"])
+    print(mm.get_ticker_prediction("NVDA", 10))
 
 if __name__ == "__main__":
     main()
