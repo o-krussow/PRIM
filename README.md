@@ -1,24 +1,31 @@
 
-## ARCHITECTURE
+## PRIM
 
-Web server imports model manager
+# What it does
+PRIM uses an Long Short Term Model (LSTM) neural network to predict a stock's price in "x" amount of days. Users interact with PRIM through a web app, and input a stock ticker and prediction day and are returned with a graph of the predicted price.
 
-Model manager imports model
+# How we built it
+The front end is built using HTML, CSS, JavaScript, with JSon and Flask constituting the middle end connecting to a backend of entirely Python. We used the Yahoo Finance API to scrape financial data from stocks when given a ticker, and we used Keras Library to build, train, test, and deploy the LSTM. Finally, we used Pickle to store the most accurate models for future use.
 
-When user wants to train a model for a ticker, web server recieves post request and tells model manager to train a new model
+# Challenges we ran into
+The biggest challenge we faced was with our LSTM. It took most of our second day of development to produce even remotely accurate predictions due to some bugs and difficult data structures. On the frontend, it was difficult to load the produced graphs from the backend. Finally, a major challenge that we didn't consider during the hackathon was the actual logic of our prediction - that predicting farther than 1 day out compounded error and the predictions would never be viable outside of 1 day ahead.
 
- - Model manager training:
-   - First check if ticker has a model, and make sure it isn't expired.
-	 - If there is no existing model or existing model is expired, we fetches price data from yfinance and continue
-	 - Passes price data to model class, then tells it to start training
-	 - Model will return data from training, like loss data, which we will probably want to send back to the user in the form of a graph. So this data will be returned back to the context of model manager so it can put the pieces together
-	 - Once model is finished training, model manager pickles the model and saves it to local filesystem
-	 - Adds model to the model dictionary, {key: model}
- - Web server needs to send data back to the user
-   - So a component creates the graph files / results in a certain folder
-	 - Then the front end needs to http get these files, so it can be shown to the user in their browser
+# Accomplishments that we're proud of
+We are proud of building and training our first ever Machine Learning model, and for successfully learning and using Flask and JSON for the first time.
 
+# What we learned
+We learned almost everything needed for this project during the hackathon. Everything about LSTMs: how they work, how to build, train, test, and implement; everything with the middle end: Flask and JSON connecting Python and HTML; and a lot of general project management skills: GIT, branches, and merging.
 
+# What's next for PRIM
+We plan to redesign PRIM to focus solely on 1 day forecasting, using Interactive Brokers API for more data. We also plan on revamping the data it is given, potentially letting it compare many stocks and choose the best ones to invest in.
 
+# Built With
+css, flask, html, javascript, json, keras, matplotlib, numpy, pandas, pickle, python, yahoo-finance
 
+![PRIM Prediction (60 day time set)](https://user-images.githubusercontent.com/123573986/232597844-9b79442d-e93b-46ef-adaf-878b70b5211a.png)
 
+PRIM is accurate when predicting only 1 day out using 60 days of actual data
+
+![PRIM Prediction (60 to 30)](https://user-images.githubusercontent.com/123573986/232597846-328ea2cc-8382-44c8-9361-2447dddac413.png)
+
+When predicting farther out, PRIM loses viability due to compunding error of using its own predictions as data.
