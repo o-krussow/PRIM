@@ -29,3 +29,10 @@ PRIM is accurate when predicting only 1 day out using 60 days of actual data
 ![PRIM Prediction (60 to 30)](https://user-images.githubusercontent.com/123573986/232597846-328ea2cc-8382-44c8-9361-2447dddac413.png)
 
 When predicting farther out, PRIM loses viability due to compunding error of using its own predictions as data.
+
+## To Test the LSTM:
+Download the repository and run lstm.py. You'll have to install relevant dependencies.
+Python will let you know what dependencies are left when you try to run lstm.py.
+Installing dependencies is done through pip.
+(Note: the command to install sklearn is pip install scikit-learn)
+

@@ -11,7 +11,6 @@ from keras.layers import Dense
 from keras.layers import LSTM
 from keras.layers import Dropout
 from keras.callbacks import EarlyStopping, History, ModelCheckpoint
-from keras.backend import get_session
 
 #File IO
 from file_handler import File
@@ -36,6 +35,9 @@ class Model:
         self._scaler = MinMaxScaler(feature_range = (0, 1))
         self._df_train = self._scaler.fit_transform(self._df_train_unscaled)
 
+        #make the model
+        self._model = Sequential()
+
         self._create_model()
 
     def _create_model(self):
@@ -48,8 +50,6 @@ class Model:
         self._features_set, self._labels = np.array(self._features_set), np.array(self._labels)
         self._features_set = np.reshape(self._features_set, (self._features_set.shape[0], self._features_set.shape[1], 1))
  
-        #make the model
-        self._model = Sequential()
 
         #add an lstm layer
         self._model.add(LSTM(60, return_sequences=True,
@@ -155,74 +155,30 @@ class Model:
         data_future = data_future.flatten().tolist()
         print(data_future)
         return data_future
-
-    def test_30_days(self):
-        # generate the multi-step forecasts
-        data_future = []
-
-        feature_set_pred = [self._df_train[-self._time_span:]]  # last observed input sequence
-        price_pred = [[self._df_train[-1]]]                         # last observed target value
-        feature_set_pred = np.array(feature_set_pred)
-        price_pred = np.array(price_pred)
-        for i in range(30):
-
-            # feed the last forecast back to the model as an input
-            feature_set_pred = np.append(feature_set_pred[:, 1:, :], price_pred.reshape(1, 1, 1), axis = 1)
-
-            # generate the next forecast
-            price_pred = self._model.predict(feature_set_pred)
-
-            # save the forecast
-            data_future.append(price_pred.flatten()[0])
-
-        # transform the forecasts back to the original scale
-        data_future = np.array(data_future).reshape(-1, 1)
-        data_future = self._scaler.inverse_transform(data_future)
-
-        return data_future, self._df_train_unscaled[-30:]
-
-    def _test(self):
-        size = 300
-        x = np.zeros((size, 60, 1))
-        y = np.zeros((size,))
-        for i in range(size):
-            x[i] = self._df_train[i: 60+i]
-            y[i] = self._df_train[i]
-        
-        temp = self._model.predict(x)
-
-        plt.figure(figsize=(10,6))
-        plt.plot(y, color='blue', label=f"Actual price")
-        plt.plot(temp, color='red', label=f'Predicted price')
-        plt.title(f'Stock Price Prediction')
-        plt.xlabel("Date")
-        plt.ylabel("Stock Price")
-        plt.legend()
-        plt.show()
         
 def main():
-    
-    start_time = time.time()
     
     model = Model("FSKAX-10y-1d.csv")
     
     #model.train(50, 14, save = True)
-    model.hyperfit(save = True)
+    #model.hyperfit(save = True)
     model.load_weights('model.h5')
     
-    predictions = model.predict(25)
+    amt = 1
+    predictions = model.predict(amt)
 
-    for i in range(100):
+    for i in range(99):
         predictions.insert(0, None)
 
     data = model._df_train_unscaled[-100:]
 
-    #model.test()
-    
+    predictions.insert(-amt, data[-1][-1])
+    # append the real data from the next day
+    data = np.append(data, 113.94000244140625)
     plt.figure(figsize=(10,6))
-    plt.plot(data, color='blue', label=f"Actual price")
-    plt.plot(predictions, color='red', label=f'Predicted price')
-    plt.title(f'Stock Price Prediction')
+    plt.plot(data, color='blue', label="Actual price")
+    plt.plot(predictions, color='red', label='Predicted price')
+    plt.title('Stock Price Prediction')
     plt.xlabel("Date")
     plt.ylabel("Stock Price")
     plt.legend()
